@@ -17,7 +17,8 @@ int main(int argc, char *argv[]) {
   const int HEIGHT = image.rows;
   const int NC = image.channels();
   printf("width = %d, height = %d", WIDTH, HEIGHT);
-  for (int y = 0; y < HEIGHT; ++y) {
+  for (int y = 0; y < HEIGHT;
+       ++y) {  // ここのfor分をコメントアウトすると色味が元に戻る
     const int STRIDE = WIDTH * NC;
     for (int x = 0; x < WIDTH; ++x) {
       double out[3] = {0.0, 0.0, 0.0};

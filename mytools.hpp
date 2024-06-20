@@ -69,6 +69,34 @@ void iminfo(cv::Mat &in) {
   }
 }
 
+double PSNR(cv::Mat &i0, cv::Mat &i1) {
+  int nc = i0.channels();
+  if (nc != i1.channels()) {
+    // error
+  }
+  int width = i0.cols;
+  int height = i0.rows;
+  if (width != i1.cols || height != i1.rows) {
+    // error
+  }
+  if (i0.type() != i1.type()) {
+    // error
+  }
+  double p[3];
+  for (int c = 0; c < nc; ++c) {
+    double sum = 0.0;
+    for (int y = 0; y < height; ++y) {
+      for (int x = 0; x < width; ++x) {
+        double d = i0.data[y * width + x] - i1.data[y * width + x];
+        sum += d * d;
+      }
+    }
+    double mse = sum / (width * height);
+    p[c] = 10 * log10((255 * 255) / mse);
+  }
+  return (p[0] + p[1] + p[2]) / 3.0;
+}
+
 template <class T>
 T clip(T pixel) {
   if (pixel < 0) {

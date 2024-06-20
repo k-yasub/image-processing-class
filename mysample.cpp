@@ -29,7 +29,10 @@ int main(int argc, char *argv[]) {
     return EXIT_FAILURE;
   }
 
-  int quality = 5;
+  int quality = 75;
+  if (argc > 2) {
+    quality = strtol(argv[2], nullptr, 10);
+  }
   float QF;
   if (quality <= 50) {
     QF = floorf(5000.0f / quality);
@@ -41,9 +44,13 @@ int main(int argc, char *argv[]) {
   for (int c = 0; c < 3; ++c) {
     for (int i = 0; i < 64; ++i) {
       qmatrix[c][i] = clip(round(qtable[c][i] * scale));
+      if (qmatrix[c][i] < FLT_EPSILON) {
+        qmatrix[c][i] = 1.0;
+      }
     }
   }
   iminfo(image);
+  cv::Mat original = image.clone();
 
   if (image.channels() == 3) {
     cv::cvtColor(image, image, cv::COLOR_BGR2YCrCb);
@@ -51,13 +58,22 @@ int main(int argc, char *argv[]) {
   std::vector<cv::Mat> cimage(image.channels());
   // カラー画像の場合、cimage[0] = R, cimage[1] = G...
   cv::split(image, cimage);
+  // クロマサブサンプリング
+  if (image.channels() == 3) {
+    cv::resize(cimage[1], cimage[1], cv::Size(), 0.5, 0.5, cv::INTER_AREA);
+  }
   for (int c = 0; c < image.channels(); ++c) {
     process_component(cimage[c], qmatrix[c]);
+  }
+  // クロマアップサンプリング
+  if (image.channels() == 3) {
+    cv::resize(cimage[1], cimage[1], cv::Size(), 2.0, 2.0, cv::INTER_AREA);
   }
   cv::merge(cimage, image);
   if (image.channels() == 3) {
     cv::cvtColor(image, image, cv::COLOR_YCrCb2BGR);
   }
+  printf("PSNR = %f [dB]\n", PSNR(original, image));
   cv::imshow("Output", image);
   int keycode = 0;
   while (keycode != 'q') {

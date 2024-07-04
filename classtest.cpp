@@ -36,7 +36,7 @@ int main() {
   myclass::complex* a;
   myclass::complex b(5, -7);
   myclass::complex c(1, 1);
-  myclass::complex d = b + c;
+  // myclass::complex d = b + c;
   a = &b;
   std::cout << "a = " << a->abs() << std::endl;
   std::cout << "b = " << b.abs() << std::endl;

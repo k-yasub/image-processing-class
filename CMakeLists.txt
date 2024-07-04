@@ -21,7 +21,7 @@ message(STATUS ${OpenCV_INCLUDE_DIRS})
 
 add_executable(imread imread.cpp)
 target_link_libraries(imread ${OpenCV_LIBS})
-add_executable(mysample mysample.cpp)
+add_executable(mysample mysample.cpp jpgheaders.cpp)
 target_link_libraries(mysample ${OpenCV_LIBS})
 
 add_executable(test classtest.cpp)

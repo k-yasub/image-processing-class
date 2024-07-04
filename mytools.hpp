@@ -4,8 +4,8 @@
 
 #define BSIZE 8
 // ブロック処理のための関数: 実際の処理はfuncで決まる
-void blkproc(cv::Mat &in, std::function<void(cv::Mat &, float *)> func,
-             float *fp = nullptr) {
+void blkproc(cv::Mat &in, std::function<void(cv::Mat &, int *)> func,
+             int *fp = nullptr) {
   for (int y = 0; y < in.rows; y += BSIZE) {
     for (int x = 0; x < in.cols; x += BSIZE) {
       cv::Mat blk_in = in(cv::Rect(x, y, BSIZE, BSIZE)).clone();
@@ -16,10 +16,10 @@ void blkproc(cv::Mat &in, std::function<void(cv::Mat &, float *)> func,
   }
 }
 
-void fdct2(cv::Mat &in, float *fp = nullptr) { cv::dct(in, in); }
-void idct2(cv::Mat &in, float *fp = nullptr) { cv::idct(in, in); }
+void fdct2(cv::Mat &in, int *fp = nullptr) { cv::dct(in, in); }
+void idct2(cv::Mat &in, int *fp = nullptr) { cv::idct(in, in); }
 
-void quantization(cv::Mat &in, float *qtable) {
+void quantization(cv::Mat &in, int *qtable) {
   if (qtable == nullptr) {
     printf("qtable is missing.\n");
     exit(EXIT_FAILURE);
@@ -29,7 +29,7 @@ void quantization(cv::Mat &in, float *qtable) {
     for (int x = 0; x < in.cols; ++x) {
       float val = p[y * in.rows + x];
       float a = fabs(val);
-      a /= qtable[y * in.rows + x];
+      a /= static_cast<float>(qtable[y * in.rows + x]);
       a = floorf(a);
       a *= (val < 0.0) ? -1 : 1;
       p[y * in.rows + x] = a;
@@ -37,7 +37,7 @@ void quantization(cv::Mat &in, float *qtable) {
   }
 }
 
-void dequantization(cv::Mat &in, float *qtable) {
+void dequantization(cv::Mat &in, int *qtable) {
   float *p = (float *)in.data;
   for (int y = 0; y < in.rows; ++y) {
     for (int x = 0; x < in.cols; ++x) {
@@ -46,7 +46,7 @@ void dequantization(cv::Mat &in, float *qtable) {
       if (a > 0.0) {
         a += 0.5;
       }
-      a *= qtable[y * in.rows + x];
+      a *= static_cast<float>(qtable[y * in.rows + x]);
       a = floorf(a);
       a *= (val < 0.0) ? -1 : 1;
       p[y * in.rows + x] = a;

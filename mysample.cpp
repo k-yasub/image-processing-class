@@ -75,6 +75,7 @@ int main(int argc, char *argv[]) {
   // クロマサブサンプリング
   if (image.channels() == 3) {
     cv::resize(cimage[1], cimage[1], cv::Size(), 0.5, 0.5, cv::INTER_AREA);
+    cv::resize(cimage[2], cimage[2], cv::Size(), 0.5, 0.5, cv::INTER_AREA);
   }
 
   for (int c = 0; c < image.channels(); ++c) {
@@ -101,6 +102,7 @@ int main(int argc, char *argv[]) {
   // クロマアップサンプリング
   if (image.channels() == 3) {
     cv::resize(cimage[1], cimage[1], cv::Size(), 2.0, 2.0, cv::INTER_AREA);
+    cv::resize(cimage[2], cimage[2], cv::Size(), 2.0, 2.0, cv::INTER_AREA);
   }
   cv::merge(cimage, image);
   if (image.channels() == 3) {

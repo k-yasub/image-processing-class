@@ -1,3 +1,4 @@
+#include <chrono>
 #include <climits>
 #include <iostream>
 #include <opencv2/opencv.hpp>
@@ -7,12 +8,30 @@
 #include "mytools.hpp"
 #include "qtable.hpp"
 
+static long long time_dct = 0;
+static long long time_qnt = 0;
+static long long time_enc = 0;
+
+#define TIC() std::chrono::high_resolution_clock::now()
+#define TOC(x)                                           \
+  std::chrono::duration_cast<std::chrono::microseconds>( \
+      std::chrono::high_resolution_clock::now() - (x))   \
+      .count()
+
 void process_component_enc(cv::Mat &image, int *qmatrix) {
   cv::Mat fimage;
   image.convertTo(fimage, CV_32F);
   fimage -= 128.0;
+  auto t0 = TIC();
   blkproc(fimage, fdct2);
+  auto t1 = TOC(t0);
+  time_dct += t1;
+
+  auto t2 = TIC();
   blkproc(fimage, quantization, qmatrix);
+  auto t3 = TOC(t2);
+  time_qnt += t3;
+
   fimage.convertTo(image, CV_16S);
 }
 
@@ -83,7 +102,11 @@ int main(int argc, char *argv[]) {
   }
 
   // entropy coding
+  auto t4 = TIC();
   Encode_MCU(cimage, enc, YUV420);
+  auto t5 = TOC(t4);
+  time_enc += t5;
+
   // .jpgの書き出し
   FILE *fp = fopen("output.jpg", "wb");
   if (fp == NULL) {
@@ -110,9 +133,16 @@ int main(int argc, char *argv[]) {
   }
   printf("PSNR = %f [dB]\n", PSNR(original, image));
   printf("Codestream length = %d Bytes\n", codestream.size());
-  cv::imshow("Output", image);
-  int keycode = 0;
-  while (keycode != 'q') {
-    keycode = cv::waitKey(0);
-  }
+  printf("DCT: %7.3f [ms]\n", time_dct / 1000.0);
+  printf("Quantization: %7.3f [ms]\n", time_qnt / 1000.0);
+  printf("Entropy: %7.3f [ms]\n", time_enc / 1000.0);
+  // cv::imshow("Output", image);
+  // int keycode = 0;
+  // while (keycode != 'q') {
+  //   keycode = cv::waitKey(0);
+  // }
 }
+
+// 横軸bpp,縦軸PSNRで結果を出す
+// csvに起こしてpythonで作ればよさそう
+// DCT、Quantization、Entropyの実行時間を出力

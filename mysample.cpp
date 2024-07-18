@@ -158,7 +158,7 @@ int main(int argc, char *argv[]) {
     printf("QF = %d \n", quality);
     printf("bitrate = %7.3f \n", bitrate[s]);
     printf("PSNR = %f [dB]\n", PSNR(original, image));
-    printf("Codestream length = %d Bytes\n", codestream.size());
+    printf("Codestream length = %zu Bytes\n", codestream.size());
     printf("DCT: %7.3f [ms]\n", time_dct / 1000.0);
     printf("Quantization: %7.3f [ms]\n", time_qnt / 1000.0);
     printf("Entropy: %7.3f [ms]\n", time_enc / 1000.0);
@@ -175,7 +175,7 @@ int main(int argc, char *argv[]) {
   }
 
   // 結果をファイルに保存
-  FILE *fpf = fopen("image_process.csv", "w");
+  FILE *fpf = fopen("u10_8.csv", "w");  // kodim, barbara, u10_8
   if (fpf == NULL) {
     printf("ファイルのオープンに失敗しました。\n");
     return 1;

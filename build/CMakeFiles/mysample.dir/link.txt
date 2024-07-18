@@ -1,0 +1,3 @@
+C:\tools\msys64\clang64\bin\cmake.exe -E rm -f CMakeFiles\mysample.dir/objects.a
+C:\tools\msys64\clang64\bin\llvm-ar.exe qc CMakeFiles\mysample.dir/objects.a @CMakeFiles\mysample.dir\objects1.rsp
+C:\tools\msys64\clang64\bin\clang++.exe -Wall -mtune=native -march=native -Wall -mtune=native -march=native -O0 -g -Wl,--whole-archive CMakeFiles\mysample.dir/objects.a -Wl,--no-whole-archive -o bin\mysample.exe -Wl,--out-implib,libmysample.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\mysample.dir\linkLibs.rsp

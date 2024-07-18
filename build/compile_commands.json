@@ -1,0 +1,26 @@
+[
+{
+  "directory": "H:/Documents/image-processing-class/build",
+  "command": "C:\\tools\\msys64\\clang64\\bin\\c++.exe -isystem C:/tools/msys64/clang64/include/opencv4 -Wall -mtune=native -march=native -Wall -mtune=native -march=native -O2 -std=gnu++17 -o CMakeFiles\\imread.dir\\imread.cpp.obj -c H:\\Documents\\image-processing-class\\imread.cpp",
+  "file": "H:\\Documents\\image-processing-class\\imread.cpp",
+  "output": "CMakeFiles\\imread.dir\\imread.cpp.obj"
+},
+{
+  "directory": "H:/Documents/image-processing-class/build",
+  "command": "C:\\tools\\msys64\\clang64\\bin\\c++.exe -isystem C:/tools/msys64/clang64/include/opencv4 -Wall -mtune=native -march=native -Wall -mtune=native -march=native -O2 -std=gnu++17 -o CMakeFiles\\mysample.dir\\mysample.cpp.obj -c H:\\Documents\\image-processing-class\\mysample.cpp",
+  "file": "H:\\Documents\\image-processing-class\\mysample.cpp",
+  "output": "CMakeFiles\\mysample.dir\\mysample.cpp.obj"
+},
+{
+  "directory": "H:/Documents/image-processing-class/build",
+  "command": "C:\\tools\\msys64\\clang64\\bin\\c++.exe -isystem C:/tools/msys64/clang64/include/opencv4 -Wall -mtune=native -march=native -Wall -mtune=native -march=native -O2 -std=gnu++17 -o CMakeFiles\\mysample.dir\\jpgheaders.cpp.obj -c H:\\Documents\\image-processing-class\\jpgheaders.cpp",
+  "file": "H:\\Documents\\image-processing-class\\jpgheaders.cpp",
+  "output": "CMakeFiles\\mysample.dir\\jpgheaders.cpp.obj"
+},
+{
+  "directory": "H:/Documents/image-processing-class/build",
+  "command": "C:\\tools\\msys64\\clang64\\bin\\c++.exe -IC:/tools/msys64/clang64/include/opencv4 -Wall -mtune=native -march=native -Wall -mtune=native -march=native -O2 -std=gnu++17 -o CMakeFiles\\test.dir\\classtest.cpp.obj -c H:\\Documents\\image-processing-class\\classtest.cpp",
+  "file": "H:\\Documents\\image-processing-class\\classtest.cpp",
+  "output": "CMakeFiles\\test.dir\\classtest.cpp.obj"
+}
+]
